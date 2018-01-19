@@ -1,10 +1,3 @@
-# DataAdapter
-javascript DataAdapter
-# Npm
-    npm install jsdata-adapter --save
-
-# Use
-```js
 let DataAdapter = require('../src/index');
 let data = new DataAdapter({
     a: {
@@ -43,4 +36,3 @@ let v1 = DataAdapter.source({
 // kong
 // index.js:16
 // Object {b: Object, e: 5}
-```
