@@ -1,7 +1,7 @@
 # DataAdapter
 javascript DataAdapter
 # Npm
-    npm install jsdata-adapter --save
+    npm install json-array-adapter --save
 
 # Use
 ```js

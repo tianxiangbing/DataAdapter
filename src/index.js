@@ -7,7 +7,7 @@
  * Contact: 55342775@qq.com
  * desc: 对json数据的数据驱动
  * 请使用https://github.com/tianxiangbing/DataAdapter 上的代码
- * npm install jsdata-adapter --save
+ * npm install json-array-adapter --save
  */
 (function (definition) {
     // 
