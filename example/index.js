@@ -24,6 +24,9 @@ let v1 = DataAdapter.source({
     },
     d: 4
 }, 'kong').get('a');
+
+let v2 = DataAdapter.source([{a:1,b:1,c:1},{a:1,b:2,c:2}]).get('a=1&&b=2');
+console.log(v2);
 // console.log(v1)
 // Object {b: Object, e: 5}
 // index.js:12

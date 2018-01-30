@@ -31,16 +31,8 @@ let v1 = DataAdapter.source({
     },
     d: 4
 }, 'kong').get('a');
-// console.log(v1)
-// Object {b: Object, e: 5}
-// index.js:12
-// Object {c: 1, f: 6}
-// index.js:13
-// kong
-// index.js:14
-// 6
-// index.js:15
-// kong
-// index.js:16
-// Object {b: Object, e: 5}
+
+//针对数据的查询,支持表达式&&、||
+let v2 = DataAdapter.source([{a:1,b:1,c:1},{a:1,b:2,c:2}]).get('a=1&&b=2');
+console.log(v2);
 ```
