@@ -36,7 +36,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             _classCallCheck(this, DataAdapter);
 
-            this.isArr = typeof obj === 'Array';
+            this.isArr = obj.constructor === Array;
             this.defaultValue = defaultValue;
             this.data = obj;
         }
@@ -49,7 +49,42 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return this._getJsonValue(this.data, arr);
                 } else {
                     //数组查询
+                    return this._getArrayValue(this.data, expression);
                 }
+            }
+        }, {
+            key: "_getArrayValue",
+            value: function _getArrayValue(data, expression) {
+                var results = [];
+                var and = expression.split('&&');
+                var or = expression.split('||');
+                data.forEach(function (item) {
+                    if (and.length) {
+                        var isAllEq = true;
+                        and.forEach(function (a) {
+                            var e = a.split('=');
+                            if (item[e[0]] != e[1]) {
+                                isAllEq = false;
+                            }
+                        });
+                        if (isAllEq) {
+                            results.push(item);
+                        }
+                    }
+                    if (or.length && or.length > 1) {
+                        var isOneEq = false;
+                        or.forEach(function (a) {
+                            var e = a.split('=');
+                            if (item[e[0]] == e[1]) {
+                                isOneEq = true;
+                            }
+                        });
+                        if (isOneEq) {
+                            results.push(item);
+                        }
+                    }
+                });
+                return results;
             }
         }, {
             key: "_getJsonValue",

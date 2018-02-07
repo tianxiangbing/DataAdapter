@@ -22,8 +22,8 @@
 })(function () {
     "use strict";
     class DataAdapter {
-        constructor(obj,defaultValue="") {
-            this.isArr = typeof obj === 'Array';
+        constructor(obj, defaultValue = "") {
+            this.isArr = obj.constructor === Array;
             this.defaultValue = defaultValue;
             this.data = obj;
         }
@@ -31,9 +31,42 @@
             if (!this.isArr) {
                 let arr = expression.split('.');
                 return this._getJsonValue(this.data, arr);
-            }else{
+            } else {
                 //数组查询
+                return this._getArrayValue(this.data, expression);
             }
+        }
+        _getArrayValue(data, expression) {
+            let results = [];
+            let and = expression.split('&&');
+            let or = expression.split('||');
+            data.forEach(item => {
+                if (and.length) {
+                    let isAllEq = true;
+                    and.forEach(a => {
+                        let e = a.split('=');
+                        if (item[e[0]] != e[1]) {
+                            isAllEq = false;
+                        }
+                    });
+                    if (isAllEq) {
+                        results.push(item)
+                    }
+                }
+                if (or.length && or.length > 1) {
+                    let isOneEq = false;
+                    or.forEach(a => {
+                        let e = a.split('=');
+                        if (item[e[0]] == e[1]) {
+                            isOneEq = true;
+                        }
+                    })
+                    if (isOneEq) {
+                        results.push(item);
+                    }
+                }
+            })
+            return results;
         }
         _getJsonValue(json, arr) {
             let key = arr.shift();
@@ -47,15 +80,35 @@
                 return this._getJsonValue(val, arr);
             }
         }
-        assign(target,expression){
+        //合并树状上的属性值，树与扁平结构的合并。
+        assign(target, expression = '') {
             let arr = expression.split('.');
-            for(var k in this.data){
-
+            for (var k in this.data) {
+                if (target.hasOwnProperty(k)) {
+                    this.data[k] = target[k];
+                }
+            }
+            this._assign(this.data, target, arr);
+            return this.data;
+        }
+        _assign(json, target, arr) {
+            let key = arr.shift();
+            if (typeof json !== 'object' || !json.hasOwnProperty(key)) return false;
+            let obj  =  json[key];
+            for (var k in obj ){
+                if(target.hasOwnProperty(k)){
+                    obj[k]= target[k];
+                }
+            }
+            if (arr.length == 0) {
+                return false;
+            } else {
+                return this._assign(json[key],target,arr);
             }
         }
     }
-    DataAdapter.source = (obj,defaultValue="")=>{
-        return new DataAdapter(obj,defaultValue);
+    DataAdapter.source = (obj, defaultValue = "") => {
+        return new DataAdapter(obj, defaultValue);
     }
     return DataAdapter;
 });
