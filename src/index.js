@@ -27,7 +27,6 @@
             this.defaultValue = defaultValue;
             this.data = obj;
         }
-        
         get(expression) {
             if (!this.isArr) {
                 let arr = expression.split('.');
@@ -46,6 +45,12 @@
                 return val;
             } else {
                 return this._getJsonValue(val, arr);
+            }
+        }
+        assign(target,expression){
+            let arr = expression.split('.');
+            for(var k in this.data){
+
             }
         }
     }
