@@ -100,6 +100,39 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return this._getJsonValue(val, arr);
                 }
             }
+            //合并树状上的属性值，树与扁平结构的合并。
+
+        }, {
+            key: "assign",
+            value: function assign(target) {
+                var expression = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+                var arr = expression.split('.');
+                for (var k in this.data) {
+                    if (target.hasOwnProperty(k)) {
+                        this.data[k] = target[k];
+                    }
+                }
+                this._assign(this.data, target, arr);
+                return this.data;
+            }
+        }, {
+            key: "_assign",
+            value: function _assign(json, target, arr) {
+                var key = arr.shift();
+                if ((typeof json === "undefined" ? "undefined" : _typeof(json)) !== 'object' || !json.hasOwnProperty(key)) return false;
+                var obj = json[key];
+                for (var k in obj) {
+                    if (target.hasOwnProperty(k)) {
+                        obj[k] = target[k];
+                    }
+                }
+                if (arr.length == 0) {
+                    return false;
+                } else {
+                    return this._assign(json[key], target, arr);
+                }
+            }
         }]);
 
         return DataAdapter;
