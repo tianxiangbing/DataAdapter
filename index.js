@@ -31,7 +31,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     "use strict";
 
     var DataAdapter = function () {
-        function DataAdapter(obj) {
+        function DataAdapter() {
+            var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
             var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
             _classCallCheck(this, DataAdapter);
@@ -104,7 +105,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         }, {
             key: "assign",
-            value: function assign(target) {
+            value: function assign() {
+                var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var expression = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
                 var arr = expression.split('.');

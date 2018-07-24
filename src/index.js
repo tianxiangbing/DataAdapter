@@ -22,7 +22,7 @@
 })(function () {
     "use strict";
     class DataAdapter {
-        constructor(obj, defaultValue = "") {
+        constructor(obj={}, defaultValue = "") {
             this.isArr = obj.constructor === Array;
             this.defaultValue = defaultValue;
             this.data = obj;
@@ -81,7 +81,7 @@
             }
         }
         //合并树状上的属性值，树与扁平结构的合并。
-        assign(target, expression = '') {
+        assign(target={}, expression = '') {
             let arr = expression.split('.');
             for (var k in this.data) {
                 if (target.hasOwnProperty(k)) {
