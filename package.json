@@ -1,9 +1,10 @@
 {
   "name": "json-array-adapter",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "js DataAdapter",
   "main": "index.js",
   "scripts": {
+    "build": "babel src -d .",
     "prepublish": "babel src -d .",
     "test": "node example/index.js"
   },

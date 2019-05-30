@@ -37,6 +37,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             _classCallCheck(this, DataAdapter);
 
+            if (!obj) obj = {};
             this.isArr = obj.constructor === Array;
             this.defaultValue = defaultValue;
             this.data = obj;
@@ -140,9 +141,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return DataAdapter;
     }();
 
-    DataAdapter.source = function (obj) {
+    DataAdapter.source = function () {
+        var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
+        if (!obj) obj = {};
         return new DataAdapter(obj, defaultValue);
     };
     return DataAdapter;

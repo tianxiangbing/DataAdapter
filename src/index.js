@@ -23,6 +23,7 @@
     "use strict";
     class DataAdapter {
         constructor(obj={}, defaultValue = "") {
+            if(!obj) obj={};
             this.isArr = obj.constructor === Array;
             this.defaultValue = defaultValue;
             this.data = obj;
@@ -107,7 +108,8 @@
             }
         }
     }
-    DataAdapter.source = (obj, defaultValue = "") => {
+    DataAdapter.source = (obj={}, defaultValue = "") => {
+        if(!obj) obj={};
         return new DataAdapter(obj, defaultValue);
     }
     return DataAdapter;
