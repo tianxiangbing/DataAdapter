@@ -1,6 +1,6 @@
 {
   "name": "json-array-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "js DataAdapter",
   "main": "index.js",
   "scripts": {

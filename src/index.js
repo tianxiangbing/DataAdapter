@@ -95,20 +95,28 @@
         /**
          * 树与树的合并
          * isDeep,是否深层合并，以左侧数据结构为基础。
+         * changeOriginal是否对原数据直接修改
          *  */
-        merge(target, isDeep = true) {
+        merge(target,changeOriginal=true, isDeep = true) {
             if (isDeep) {
-                return this._merge(this.data, target);
+                return this._merge(this.data, target,changeOriginal);
             } else {
-                return Object.assign({}, this.data, target);
+                if(changeOriginal){
+                    return Object.assign(this.data, target);
+                }else{
+                    return Object.assign({}, this.data, target);
+                }
             }
         }
-        _merge(source, target) {
-            let newData = {}
+        _merge(source, target,changeOriginal) {
+            let newData = {};
+            if(changeOriginal){
+                newData = source;
+            }
             for (var k in source) {
                 if (target.hasOwnProperty(k)) {
                     if (typeof source[k] === 'object') {
-                        newData[k] = this._merge(source[k], target[k])
+                        newData[k] = this._merge(source[k], target[k],changeOriginal)
                     } else {
                         newData[k] = target[k];
                     }

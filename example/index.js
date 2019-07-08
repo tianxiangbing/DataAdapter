@@ -27,8 +27,7 @@ let v1 = DataAdapter.source({
 
 let v2 = DataAdapter.source([{ a: 1, b: 1, c: 1 }, { a: 1, b: 2, c: 2 }]).get('a=1&&b=2');
 console.log(v2);//[ { a: 1, b: 2, c: 2 } ]
-
-let v3 = DataAdapter.source({
+let js3={
     a: {
         b: {
             c: 1,
@@ -43,7 +42,8 @@ let v3 = DataAdapter.source({
         e: 5
     },
     d: 4
-});
+}
+let v3 = DataAdapter.source(js3);
 v3.assign({ c: 2, e: 3, d: 5, h: 8, j: 2 }, 'a.b.g.0.i.0')
 console.log(JSON.stringify(v3.data))//{"a":{"b":{"c":2,"f":6,"g":[{"h":8,"i":[{"j":2}]}]},"e":3},"d":5}
 
@@ -62,8 +62,8 @@ let res = v3.merge({
         e: 4
     },
     d:11
-})
-console.log(JSON.stringify(res))//{"a":{"b":{"c":4,"f":6,"g":[{"h":8,"i":[{"j":2}]}]},"e":4},"d":11}
+},false)
+console.log(JSON.stringify(res),js3)//{"a":{"b":{"c":4,"f":6,"g":[{"h":8,"i":[{"j":2}]}]},"e":4},"d":11}
 let res2 = v3.merge({
     a: {
         b: {
@@ -72,5 +72,5 @@ let res2 = v3.merge({
         e: 4
     },
     d:11
-},false)
-console.log(JSON.stringify(res2))//{"a":{"b":{"c":4},"e":4},"d":11}
+},true,false)
+console.log(JSON.stringify(res2),js3)//{"a":{"b":{"c":4},"e":4},"d":11}

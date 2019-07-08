@@ -73,3 +73,11 @@ let res2 = v3.merge({
 },false)
 console.log(JSON.stringify(res2))//{"a":{"b":{"c":4},"e":4},"d":11}
 ```
+## merge(target,changeOriginal=true, isDeep = true)
+```
+/**
+    * 树与树的合并
+    * isDeep,是否深层合并，以左侧数据结构为基础。
+    * changeOriginal是否对原数据直接修改
+    *  */
+```

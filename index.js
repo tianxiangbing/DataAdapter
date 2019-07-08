@@ -124,27 +124,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             /**
              * 树与树的合并
              * isDeep,是否深层合并，以左侧数据结构为基础。
+             * changeOriginal是否对原数据直接修改
              *  */
 
         }, {
             key: "merge",
             value: function merge(target) {
-                var isDeep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+                var changeOriginal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+                var isDeep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
                 if (isDeep) {
-                    return this._merge(this.data, target);
+                    return this._merge(this.data, target, changeOriginal);
                 } else {
-                    return _extends({}, this.data, target);
+                    if (changeOriginal) {
+                        return _extends(this.data, target);
+                    } else {
+                        return _extends({}, this.data, target);
+                    }
                 }
             }
         }, {
             key: "_merge",
-            value: function _merge(source, target) {
+            value: function _merge(source, target, changeOriginal) {
                 var newData = {};
+                if (changeOriginal) {
+                    newData = source;
+                }
                 for (var k in source) {
                     if (target.hasOwnProperty(k)) {
                         if (_typeof(source[k]) === 'object') {
-                            newData[k] = this._merge(source[k], target[k]);
+                            newData[k] = this._merge(source[k], target[k], changeOriginal);
                         } else {
                             newData[k] = target[k];
                         }
