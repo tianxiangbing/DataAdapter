@@ -50,4 +50,26 @@ let v3 = DataAdapter.source({
 });
 v3.assign({c:2,e:3,d:5,h:8},'a.b.g.0')
 console.log(JSON.stringify( v3.data))//{"a":{"b":{"c":2,"f":6,"g":[{"h":8}]},"e":3},"d":5}
+//深合并
+console.log('******************************************')
+let res = v3.merge({
+    a: {
+        b: {
+            c: 4
+        },
+        e: 4
+    },
+    d:11
+})
+console.log(JSON.stringify(res))//{"a":{"b":{"c":4,"f":6,"g":[{"h":8,"i":[{"j":2}]}]},"e":4},"d":11}
+let res2 = v3.merge({
+    a: {
+        b: {
+            c: 4
+        },
+        e: 4
+    },
+    d:11
+},false)
+console.log(JSON.stringify(res2))//{"a":{"b":{"c":4},"e":4},"d":11}
 ```

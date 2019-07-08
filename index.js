@@ -1,5 +1,7 @@
 "use strict";
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -118,6 +120,39 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
                 this._assign(this.data, target, arr);
                 return this.data;
+            }
+            /**
+             * 树与树的合并
+             * isDeep,是否深层合并，以左侧数据结构为基础。
+             *  */
+
+        }, {
+            key: "merge",
+            value: function merge(target) {
+                var isDeep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+                if (isDeep) {
+                    return this._merge(this.data, target);
+                } else {
+                    return _extends({}, this.data, target);
+                }
+            }
+        }, {
+            key: "_merge",
+            value: function _merge(source, target) {
+                var newData = {};
+                for (var k in source) {
+                    if (target.hasOwnProperty(k)) {
+                        if (_typeof(source[k]) === 'object') {
+                            newData[k] = this._merge(source[k], target[k]);
+                        } else {
+                            newData[k] = target[k];
+                        }
+                    } else {
+                        newData[k] = source[k];
+                    }
+                }
+                return newData;
             }
         }, {
             key: "_assign",

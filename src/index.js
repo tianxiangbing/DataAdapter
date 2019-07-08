@@ -22,8 +22,8 @@
 })(function () {
     "use strict";
     class DataAdapter {
-        constructor(obj={}, defaultValue = "") {
-            if(!obj) obj={};
+        constructor(obj = {}, defaultValue = "") {
+            if (!obj) obj = {};
             this.isArr = obj.constructor === Array;
             this.defaultValue = defaultValue;
             this.data = obj;
@@ -82,7 +82,7 @@
             }
         }
         //合并树状上的属性值，树与扁平结构的合并。
-        assign(target={}, expression = '') {
+        assign(target = {}, expression = '') {
             let arr = expression.split('.');
             for (var k in this.data) {
                 if (target.hasOwnProperty(k)) {
@@ -92,24 +92,50 @@
             this._assign(this.data, target, arr);
             return this.data;
         }
+        /**
+         * 树与树的合并
+         * isDeep,是否深层合并，以左侧数据结构为基础。
+         *  */
+        merge(target, isDeep = true) {
+            if (isDeep) {
+                return this._merge(this.data, target);
+            } else {
+                return Object.assign({}, this.data, target);
+            }
+        }
+        _merge(source, target) {
+            let newData = {}
+            for (var k in source) {
+                if (target.hasOwnProperty(k)) {
+                    if (typeof source[k] === 'object') {
+                        newData[k] = this._merge(source[k], target[k])
+                    } else {
+                        newData[k] = target[k];
+                    }
+                } else {
+                    newData[k] = source[k];
+                }
+            }
+            return newData;
+        }
         _assign(json, target, arr) {
             let key = arr.shift();
             if (typeof json !== 'object' || !json.hasOwnProperty(key)) return false;
-            let obj  =  json[key];
-            for (var k in obj ){
-                if(target.hasOwnProperty(k)){
-                    obj[k]= target[k];
+            let obj = json[key];
+            for (var k in obj) {
+                if (target.hasOwnProperty(k)) {
+                    obj[k] = target[k];
                 }
             }
             if (arr.length == 0) {
                 return false;
             } else {
-                return this._assign(json[key],target,arr);
+                return this._assign(json[key], target, arr);
             }
         }
     }
-    DataAdapter.source = (obj={}, defaultValue = "") => {
-        if(!obj) obj={};
+    DataAdapter.source = (obj = {}, defaultValue = "") => {
+        if (!obj) obj = {};
         return new DataAdapter(obj, defaultValue);
     }
     return DataAdapter;
