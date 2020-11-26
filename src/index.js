@@ -71,14 +71,15 @@
         }
         _getJsonValue(json, arr) {
             let key = arr.shift();
-            if (typeof json !== 'object' || !json.hasOwnProperty(key)) {
+            if (json === null || typeof json === 'undefeined' || typeof json !== 'object' || !json.hasOwnProperty(key)) {
                 return this.defaultValue;
-            }
-            let val = json[key];
-            if (arr.length == 0) {
-                return val;
-            } else {
-                return this._getJsonValue(val, arr);
+            }else{
+                let val = json[key];
+                if (arr.length == 0) {
+                    return val;
+                } else {
+                    return this._getJsonValue(val, arr);
+                }
             }
         }
         //合并树状上的属性值，树与扁平结构的合并。
@@ -97,26 +98,26 @@
          * isDeep,是否深层合并，以左侧数据结构为基础。
          * changeOriginal是否对原数据直接修改
          *  */
-        merge(target,changeOriginal=true, isDeep = true) {
+        merge(target, changeOriginal = true, isDeep = true) {
             if (isDeep) {
-                return this._merge(this.data, target,changeOriginal);
+                return this._merge(this.data, target, changeOriginal);
             } else {
-                if(changeOriginal){
+                if (changeOriginal) {
                     return Object.assign(this.data, target);
-                }else{
+                } else {
                     return Object.assign({}, this.data, target);
                 }
             }
         }
-        _merge(source, target,changeOriginal) {
+        _merge(source, target, changeOriginal) {
             let newData = {};
-            if(changeOriginal){
+            if (changeOriginal) {
                 newData = source;
             }
             for (var k in source) {
                 if (target.hasOwnProperty(k)) {
                     if (typeof source[k] === 'object') {
-                        newData[k] = this._merge(source[k], target[k],changeOriginal)
+                        newData[k] = this._merge(source[k], target[k], changeOriginal)
                     } else {
                         newData[k] = target[k];
                     }
@@ -128,17 +129,20 @@
         }
         _assign(json, target, arr) {
             let key = arr.shift();
-            if (typeof json !== 'object' || !json.hasOwnProperty(key)) return false;
-            let obj = json[key];
-            for (var k in obj) {
-                if (target.hasOwnProperty(k)) {
-                    obj[k] = target[k];
-                }
-            }
-            if (arr.length == 0) {
+            if (json === null || typeof json === 'undefeined' || typeof json !== 'object' || !json.hasOwnProperty(key)) {
                 return false;
             } else {
-                return this._assign(json[key], target, arr);
+                let obj = json[key];
+                for (var k in obj) {
+                    if (target.hasOwnProperty(k)) {
+                        obj[k] = target[k];
+                    }
+                }
+                if (arr.length == 0) {
+                    return false;
+                } else {
+                    return this._assign(json[key], target, arr);
+                }
             }
         }
     }

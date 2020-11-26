@@ -94,14 +94,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: "_getJsonValue",
             value: function _getJsonValue(json, arr) {
                 var key = arr.shift();
-                if ((typeof json === "undefined" ? "undefined" : _typeof(json)) !== 'object' || !json.hasOwnProperty(key)) {
+                if (json === null || typeof json === 'undefeined' || (typeof json === "undefined" ? "undefined" : _typeof(json)) !== 'object' || !json.hasOwnProperty(key)) {
                     return this.defaultValue;
-                }
-                var val = json[key];
-                if (arr.length == 0) {
-                    return val;
                 } else {
-                    return this._getJsonValue(val, arr);
+                    var val = json[key];
+                    if (arr.length == 0) {
+                        return val;
+                    } else {
+                        return this._getJsonValue(val, arr);
+                    }
                 }
             }
             //合并树状上的属性值，树与扁平结构的合并。
@@ -167,17 +168,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: "_assign",
             value: function _assign(json, target, arr) {
                 var key = arr.shift();
-                if ((typeof json === "undefined" ? "undefined" : _typeof(json)) !== 'object' || !json.hasOwnProperty(key)) return false;
-                var obj = json[key];
-                for (var k in obj) {
-                    if (target.hasOwnProperty(k)) {
-                        obj[k] = target[k];
-                    }
-                }
-                if (arr.length == 0) {
+                if (json === null || typeof json === 'undefeined' || (typeof json === "undefined" ? "undefined" : _typeof(json)) !== 'object' || !json.hasOwnProperty(key)) {
                     return false;
                 } else {
-                    return this._assign(json[key], target, arr);
+                    var obj = json[key];
+                    for (var k in obj) {
+                        if (target.hasOwnProperty(k)) {
+                            obj[k] = target[k];
+                        }
+                    }
+                    if (arr.length == 0) {
+                        return false;
+                    } else {
+                        return this._assign(json[key], target, arr);
+                    }
                 }
             }
         }]);
